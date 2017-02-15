@@ -1,0 +1,145 @@
+<html lang="zh-CN">
+<head>
+    <title>chisir chat</title>
+    <meta charset="UTF-8">
+    <style>
+        .box{
+            display: -webkit-flex;
+            display: flex;
+            justify-content:space-between;
+            -webkit-justify-content: space-between;
+            /*flex-flow: column;*/
+        }
+        .active{
+
+            border-radius: 10px;
+            background-color:rgb(56,158,254) ;
+
+        }
+        .glyphicon{
+            font-size: 20px;
+            color:#f5f2f0;
+        }
+        .left{
+            float: left;
+        }
+        .clear{
+            clear:both
+        }
+
+
+    </style>
+    <link href="http://ohsmsw5ly.bkt.clouddn.com/css/bootstrap.min.css" rel='stylesheet' type='text/css' />
+
+    <!--<script type="text/javascript" src="http://ohsmsw5ly.bkt.clouddn.com/js/jquery.min.js"></script>-->
+    <!--<script type="text/javascript" src="http://ohsmsw5ly.bkt.clouddn.com/js/bootstrap.min.js"></script>-->
+    <script type="text/javascript" src="/javascripts/vue.js"></script>
+
+    <link href="/stylesheets/style.css" rel='stylesheet' type='text/css' />
+
+
+</head>
+<body>
+    <!--HTML5 flex弹性布局-->
+    <div class="box" id="app" >
+        <aside class="item aside-one">
+            <div class="aside-one-one">
+                <img src="/images/me.jpg" style="border-radius: 50%">
+            </div>
+            <div>
+                <ul class="aside-one-list">
+                    <li class="active"><i class="glyphicon glyphicon-search"></i></li>
+                    <li><i class="glyphicon glyphicon-pencil"></i></li>
+                    <li><i class="glyphicon glyphicon-lock"></i></li>
+                    <li><i class="glyphicon glyphicon-picture"></i></li>
+                </ul>
+            </div>
+            <div class="aside-one-three">
+                <p><a href="#"><span class="glyphicon glyphicon-cog"></span></a></p>
+                <p><a href="#"><span class="glyphicon glyphicon-off"></span></a></p>
+            </div>
+        </aside>
+        <div class="item box-one">
+            <h4 style="padding: 5px">在线用户:<span style="padding-left: 5px;font-size: 20px">2</span></h4>
+
+            <ul class="box-one-list">
+                <li class="box-one-active"><img src="/images/me.jpg" class="box-one-img"><span style="padding-left: 15px">一叶知秋</span></li>
+                <li><img src="/images/me.jpg" class="box-one-img"><span style="padding-left: 15px">后知后觉</span></li>
+
+            </ul>
+        </div>
+        <article class="item box-two">
+            <div class="box-two-one">
+                <img src="/images/me.jpg" class="box-one-img img-set"><span style="padding-left: 15px">一叶知秋</span>
+            </div>
+            <div class="box-two-two" style="overflow-y:scroll" id="chatList">
+                <div class="box-two-list" v-for="item in items">
+                    <p class="two-list-item"><img src="/images/me.jpg" class="box-one-img"></p>
+                    <div class="left">
+                        <p>{{item.name}}<span>{{item.time}}</span></p>
+                        <div class="box-two-text">{{item.text}}</div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <footer class="box-two-three">
+                <div style="margin:10px;color: #0f0f0f;" class="glyphicon glyphicon-th-large" ></div>
+                <input id="text" type="text" placeholder="输入聊天内容" v-model="chatContent">
+                <button type="submit" class="btn btn-default" :keyup.enter="submit"
+                        @click="submit" style="margin-left: 5px">发送消息</button>
+            </footer>
+        </article>
+        <aside class="item aside-two">
+            <div style="padding: 5px">
+                <h4>公告</h4>
+                <p style="padding-top: 10px">有问题欢迎提issue</p>
+                <hr/>
+            </div>
+            <div>
+                <div>
+                    <h4>近期活跃
+                        <a class="glyphicon glyphicon-search" href="#" style=" color: #0f0f0f;padding-left: 10px;text-decoration: none">
+                        </a>
+                    </h4>
+                </div>
+                <ul class="box-one-list">
+                    <li class="box-one-active"><img src="/images/me.jpg" class="box-one-img"><span style="padding-left: 15px">一叶知秋</span></li>
+                    <li><img src="/images/me.jpg" class="box-one-img"><span style="padding-left: 15px">后知后觉</span></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+</body>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello Vue!',
+            chatContent:'',
+            items:[
+                {name:'后知后觉',time:'17:01:12',text:'hello word!'},
+                {name:'后知后觉',time:'17:01:15',text:'who are you?'},
+                {name:'后知后觉',time:'17:01:19',text:'where I am? '},
+
+            ]
+        },
+        watch:{
+            items:function(){
+                var el=document.getElementById('chatList');
+                el.scrollTop = el.scrollHeight;
+            }
+        },
+        methods:{
+            submit:function(){
+                var obj={};
+                obj.name='后知后觉';
+                obj.time='19:01:13';
+                obj.text=this.chatContent;
+
+                this.items.push(obj)
+
+            }
+        }
+    })
+</script>
+</html>

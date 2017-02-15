@@ -1,0 +1,129 @@
+body{
+  margin: 0;padding: 0
+}
+body,div,button, input, select, textarea,span,p,a{font:14px/1.5 "Microsoft YaHei",Arial,  Verdana, sans-serif;}
+
+/*box-one*/
+.aside-one-list{
+  margin:0 auto;
+  padding:0;
+
+}
+.aside-one-list li{
+  list-style: none;
+  padding: 10px 12px;
+
+}
+.aside-one-list li:hover{
+  border-radius: 10px;
+  background-color:rgb(56,158,254) ;
+}
+
+
+.aside-one{
+  width: 60px;height: 100%;
+  display: flex;flex-flow: column nowrap;
+  justify-content: space-between;align-items: center;
+  background-color:rgb(34,147,254);
+}
+.aside-one > div{
+  flex: 1 1 auto;
+}
+.aside-one-three{
+  padding-top:60px;
+}
+.aside-one-three p{
+  padding-top: 20px;
+}
+.aside-one-one{
+  padding: 20px;
+}
+.aside-one-one img{
+  width: 50px;
+  height: 50px;
+}
+
+
+/*box-one*/
+.box-one{
+  width: 190px;height: 100%;
+  background-color: rgb(241,242,245);
+}
+.box-one-list{
+  margin:0 auto;
+  padding:0;
+
+}
+.box-one-list li{
+  list-style: none;
+  padding: 10px 12px;
+
+}
+.box-one-list li:hover{
+  border-radius: 10px;
+  background-color:rgb(248,249,250) ;
+}
+
+.box-one-img{
+  width: 40px;height: 40px;
+  border-radius: 50%;
+}
+.box-one-active{
+  border-radius: 10px;
+  background-color:rgb(248,249,250) ;
+}
+
+/*box-two*/
+.box-two{
+  flex: 1 1 auto;
+  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-around;
+  background-color: rgb(245,245,245);
+}
+.box-two-one{
+  background-color:rgb(248,249,250) ;
+  height: 70px;
+  /*border-bottom: 1px solid #f7ba2a;*/
+}
+.img-set{
+  margin: 10px 10px;
+}
+.box-two-two{
+  flex: 1 1 auto;
+}
+.box-two-list{
+  padding: 10px;
+}
+.two-list-item{
+  float: left;padding-right: 20px
+}
+.box-two-text{
+  background-color: white;
+  border: 1px solid #99A9BF;
+  border-radius: 10px;
+  padding: 5px 5px;
+
+}
+.box-two-three{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+
+
+
+}
+.box-two-three input{
+
+  flex: 1 1 auto;
+
+
+}
+
+/*aside-two*/
+.aside-two{
+  width: 220px;height: 100%;
+  background-color:rgb(248,249,250) ;
+}
+

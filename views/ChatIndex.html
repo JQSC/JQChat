@@ -1,0 +1,233 @@
+<html lang="zh-CN">
+<head>
+    <title>Socket.IO chat</title>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            padding-top: 55px;
+        }
+        #messages { list-style-type: none; margin: 0; padding: 0; }
+        #messages li { padding: 5px 10px;  width: auto}
+        #messages{height: 75%; overflow: auto;}
+        #chatList{height: 70%}
+    </style>
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" />
+    <script src="/javascripts/jquery-2.2.3.min.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+
+</head>
+<body>
+<nav class="navbar navbar-fixed-top navbar-inverse navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Web实时聊天--制作人CSQ</a>
+        </div>
+        <!--下拉菜单 -->
+        <ul class="nav navbar-nav">
+          <li class="dropdown active"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">切换主题 <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="#mr">默认</a></li>
+                <li><a href="#red">中国红(暂停使用)</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#other">开发中。。。</a></li>
+            </ul>
+          </li>
+        </ul>
+    </div>
+
+</nav>
+
+<div class="container-fluid" >
+    <div class="row" >
+
+        <div class="col-md-2">
+            <!-- 垂直的胶囊式导航菜单 -->
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">用户列表</h3>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-group">
+                        <li class="list-group-item" style="color: magenta">
+                            <span class="badge" id="chatNum" >0</span>
+                            >在线人数
+                        </li>
+                    </ul>
+                    <ul class="list-group" id="chatList">
+
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">聊天窗口</h3>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-group" id="messages">
+                        <li class="list-group-item" >
+                            <span class="badge">0</span>
+                            消息提醒
+                        </li>
+                    </ul>
+                    <!--alert-warning  alert-success alert-danger-->
+                </div>
+
+                <div class="panel-footer" style="margin-bottom: 15px">
+
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                        <input id="text" type="text" class="form-control" placeholder="输入聊天内容">
+                        </div>
+                        <div class="col-sm-2">
+                            <button id="btn" type="submit" class="btn btn-default">发送消息</button>
+                        </div>
+                    </div>
+
+                </div>
+        </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="panel panel-primary" style="height: 95%" >
+
+                    <div class="" style="padding-bottom: 10px; padding-top: 10px;margin-left: 30px">
+                        <img class="avatar" src="images/avatar.png" alt="头像">
+                        <span class="username lead" style="text-align: center; padding-left: 10px;"><%=user %></span>
+                    </div>
+                    <ul class="list-group">
+                        <li class="list-group-item"><a href="#"><span class="glyphicon glyphicon-cog"> </span> &nbsp;基本设置</a></li>
+                        <li class="list-group-item"><a href="#"><span class="glyphicon glyphicon-lock"> </span> &nbsp;修改密码</a></li>
+                        <li class="list-group-item"><a href="#"><span class="glyphicon glyphicon-picture"> </span> &nbsp;上传头像</a></li>
+                        <li class="list-group-item"><a href="#"><span class="glyphicon glyphicon-off"> </span> &nbsp;安全退出</a></li>
+                    </ul>
+                </div>
+            </div>
+
+    </div>
+</div>
+
+
+
+
+
+<script src="/socket.io/socket.io.js" type="text/javascript"></script>
+<!--<script src="jquery-2.2.3.min.js"></script>-->
+
+<script type="text/javascript">
+    var myName=false;
+    var socket= io.connect('http://localhost');
+    var oChatNum=document.getElementById('chatNum')
+    var oMessages=document.getElementById('messages')
+    var oChatList=document.getElementById('chatList')
+    var oBtn=document.getElementById('btn')
+    var oText=document.getElementById('text')
+    var oName=""   //prompt("给自己起个昵称吧")
+    oText.focus();
+//    if(oName==null)
+//    {
+//        alert("昵称不能为空噢！！")
+//        location.reload()
+//    }
+    socket.emit('login',{name:'<%=user %>'}
+    );
+
+    //更新在线人数，及其人数列表
+    socket.on('chatNum',function(data){
+        //console.log(data)
+        oChatNum.innerHTML=data.chatNum;
+        //oChatList.innerHTML="在线人数列表:"
+        for( i in data.chatList)
+        {
+            var oA=document.createElement('li')
+            oA.href='#'
+            oA.className="list-group-item"
+            oA.id=data.chatList[i]
+            oA.innerHTML+=data.chatList[i]
+            oChatList.appendChild(oA)
+        }
+    });
+
+
+    //广播聊天室用户加入 退出的消息
+    socket.on('NewUser',function(data){
+        var oli=document.createElement('li')
+        oChatNum.innerHTML=data.chatNum
+        oli.innerHTML=data.user+"---"+data.text
+        oli.style.textAlign='center'
+        oMessages.appendChild(oli)
+
+        oChatList.innerHTML=""
+        for( i in data.chatList)
+        {
+            var oA=document.createElement('li');
+            oA.href='#';
+            oA.id=data.chatList[i];
+            oA.className="list-group-item"
+            oA.innerHTML+=data.chatList[i];
+            oChatList.appendChild(oA)
+        }
+
+
+    });
+    document.onkeydown=function(e){
+        var keycode=document.all?event.keyCode:e.which;
+        if(keycode==13) oBtn.onclick();
+    }
+   function GetTime(){
+       var data=new Date()
+       var year=data.getFullYear()
+       var month=data.getMonth()+1
+       var day=data.getDate()
+       var time=data.getHours()
+       var mm = data.getMinutes();
+       var m = data.getSeconds();
+       var ti=year+"-"+month+"-"+day+"  "+time+":"+mm+":"+m;
+       return ti
+   }
+    oBtn.onclick=function(){
+       // $('#messages').scrollTop($('#messages').prop('scrollHeight'))
+        //发送消息
+        var oli=document.createElement('li');
+        var olitwo=document.createElement('div');
+        oli.innerHTML='<%=user %>'+" :"+"      "+GetTime()
+        olitwo.innerHTML=oText.value;
+        //oli.style.backgroundColor='blue'
+        oli.style.marginLeft='50px';
+        olitwo.style.marginLeft='90px';
+        //olitwo.width='auto'
+        olitwo.className="alert alert-success"
+        oMessages.appendChild(oli);
+        oMessages.appendChild(olitwo);
+        socket.emit('message',{text:oText.value,name:'<%=user %>'}
+        );
+        oMessages.scrollTop = oMessages.scrollHeight;
+
+    }
+   ///接收用户发送的消息进行广播
+    socket.on('SendMessage',function(data){
+        var oli=document.createElement('li')
+        var olitwo=document.createElement('div');
+        oli.innerHTML=data.name+" : "+"  "+GetTime()
+        olitwo.innerHTML=data.text;
+        //oli.style.float='right'
+       // oli.style.backgroundColor='red'
+       // oli.style.color='#FF0080'
+        //olitwo.style.color='#FF0080'
+        oli.style.marginLeft='50px'
+        olitwo.style.marginLeft='90px';
+        olitwo.style.borderRadius='10px'
+       // olitwo.style.backgroundColor='#fff';
+        olitwo.className="alert alert-warning"
+        oMessages.appendChild(oli)
+        oMessages.appendChild(olitwo);
+        oMessages.scrollTop = oMessages.scrollHeight;
+    });
+
+
+
+</script>
+</body>
+</html>
