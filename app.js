@@ -10,6 +10,7 @@ var users = require('./routes/users');
 
 var app = express();
 
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 
@@ -60,5 +61,13 @@ app.use(function(err, req, res, next) {
   });
 });
 
-app.listen(8082,function(){    console.log("Server Start!");});
+//server.listen(8082);
+var server = require('http').createServer(app);
+
+var chatServer=require('./chat/chatserver');
+
+chatServer.listen(server);
+
+server.listen(8080,function(){    console.log("Server Start!");});
+
 module.exports = app;

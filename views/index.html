@@ -2,6 +2,8 @@
 <head>
     <title>chisir chat</title>
     <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1, minimum-scale=1">
     <style>
         .box{
             display: -webkit-flex;
@@ -33,7 +35,12 @@
 
     <!--<script type="text/javascript" src="http://ohsmsw5ly.bkt.clouddn.com/js/jquery.min.js"></script>-->
     <!--<script type="text/javascript" src="http://ohsmsw5ly.bkt.clouddn.com/js/bootstrap.min.js"></script>-->
+
+    <script  src="/socket.io/socket.io.js" type="text/javascript"></script>
+
+
     <script type="text/javascript" src="/javascripts/vue.js"></script>
+
 
     <link href="/stylesheets/style.css" rel='stylesheet' type='text/css' />
 
@@ -60,27 +67,33 @@
             </div>
         </aside>
         <div class="item box-one">
-            <h4 style="padding: 5px">在线用户:<span style="padding-left: 5px;font-size: 20px">2</span></h4>
+            <h4 style="padding: 5px">在线用户:<span style="padding-left: 5px;font-size: 20px">{{userNum}}</span></h4>
 
             <ul class="box-one-list">
-                <li class="box-one-active"><img src="/images/me.jpg" class="box-one-img"><span style="padding-left: 15px">一叶知秋</span></li>
-                <li><img src="/images/me.jpg" class="box-one-img"><span style="padding-left: 15px">后知后觉</span></li>
 
+                <li class="box-one-active" v-for="user in userList">
+                    <img src="/images/me.jpg" class="box-one-img">
+                    <span style="padding-left: 15px">{{user.userName}}</span></li>
             </ul>
         </div>
         <article class="item box-two">
             <div class="box-two-one">
                 <img src="/images/me.jpg" class="box-one-img img-set"><span style="padding-left: 15px">一叶知秋</span>
             </div>
-            <div class="box-two-two" style="overflow-y:scroll" id="chatList">
+            <div style="text-align: center;color: #13CE66;height:20px;margin-top: 10px">
+                更新：
+                <span style="color: #0f0f0f">{{message}}</span>
+            </div>
+            <div class="box-two-two" style="overflow-y:scroll;position: relative" id="chatList">
                 <div class="box-two-list" v-for="item in items">
                     <p class="two-list-item"><img src="/images/me.jpg" class="box-one-img"></p>
                     <div class="left">
-                        <p>{{item.name}}<span>{{item.time}}</span></p>
+                        <p>{{item.name}}<span>&nbsp;{{item.time}}</span></p>
                         <div class="box-two-text">{{item.text}}</div>
                     </div>
                     <div class="clear"></div>
                 </div>
+
             </div>
             <footer class="box-two-three">
                 <div style="margin:10px;color: #0f0f0f;" class="glyphicon glyphicon-th-large" ></div>
@@ -103,43 +116,100 @@
                     </h4>
                 </div>
                 <ul class="box-one-list">
-                    <li class="box-one-active"><img src="/images/me.jpg" class="box-one-img"><span style="padding-left: 15px">一叶知秋</span></li>
-                    <li><img src="/images/me.jpg" class="box-one-img"><span style="padding-left: 15px">后知后觉</span></li>
+                    <li class="box-one-active"><img src="/images/me.jpg" class="box-one-img"><span style="padding-left: 15px">一叶知秋1</span></li>
+                    <li><img src="/images/me.jpg" class="box-one-img"><span style="padding-left: 15px">一叶知秋2</span></li>
                 </ul>
             </div>
         </aside>
     </div>
 </body>
 <script>
-    new Vue({
+    var socket= io.connect('http://localhost:8080');
+    var el=document.getElementById('chatList');
+    var app=new Vue({
         el: '#app',
         data: {
-            message: 'Hello Vue!',
+            message: '',
             chatContent:'',
+            user:false,
+            userNum:'',
             items:[
-                {name:'后知后觉',time:'17:01:12',text:'hello word!'},
+               /* {name:'后知后觉',time:'17:01:12',text:'hello word!'},
                 {name:'后知后觉',time:'17:01:15',text:'who are you?'},
-                {name:'后知后觉',time:'17:01:19',text:'where I am? '},
-
-            ]
+                {name:'后知后觉',time:'17:01:19',text:'where I am? '}
+*/
+            ],
+            userList:[]
         },
         watch:{
             items:function(){
-                var el=document.getElementById('chatList');
+
                 el.scrollTop = el.scrollHeight;
             }
         },
+        created:function(){
+            var _this=this;
+            //更新在线人数，及其人数列表
+            socket.on('addUser',function(data){
+
+                var user=data.userInfo.userName,
+                        timeSign=data.userInfo.time,
+                        userNum=data.userNum,
+                        content=data.text;
+                if(!_this.user){
+                    _this.user=data.userInfo.userName;
+                }
+                _this.userNum=data.userNum;
+                //update user list
+                _this.updateUserList(data.userList);
+
+                _this.message=user+'  '+content+'--'+timeSign
+
+            });
+            socket.on('getMessage',function(message){
+                var obj={};
+                obj.name=message.name;
+                obj.time=message.time;
+                obj.text=message.text;
+                obj.image=message.image;
+                _this.items.push(obj);
+            });
+            socket.on('disconnect', function() {
+                console.log("与服务其断开...");
+            });
+
+            socket.on('reconnect', function() {
+                console.log("重新连接到服务器中!");
+            });
+        },
         methods:{
             submit:function(){
+                var timeNew=this.getRealTime();
                 var obj={};
-                obj.name='后知后觉';
-                obj.time='19:01:13';
-                obj.text=this.chatContent;
+                    obj.name=this.user;
+                    obj.time=timeNew;
+                    obj.text=this.chatContent;
+                    obj.image='';
 
-                this.items.push(obj)
-
+                this.items.push(obj);
+                //广播聊天内容
+                socket.emit('chatMessage',obj);
+            },
+            getRealTime:function(){
+                var date=new Date();
+                var seconds=date.getSeconds();
+                if(seconds<10){ seconds='0'+seconds}
+                return date.getHours()+':'+date.getMinutes()+':'+seconds
+            },
+            updateUserList:function(userList){
+               //每次有用户加入，重刷用户猎豹
+                this.userList=[];
+                for(item in userList){
+                    this.userList.push(userList[item])
+                }
             }
         }
-    })
+    });
+
 </script>
 </html>
