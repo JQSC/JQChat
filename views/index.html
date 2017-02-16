@@ -71,14 +71,14 @@
 
             <ul class="box-one-list">
 
-                <li class="box-one-active" v-for="user in userList">
+                <li :class="user.active" v-for="user in userList">
                     <img src="/images/me.jpg" class="box-one-img">
                     <span style="padding-left: 15px">{{user.userName}}</span></li>
             </ul>
         </div>
         <article class="item box-two">
             <div class="box-two-one">
-                <img src="/images/me.jpg" class="box-one-img img-set"><span style="padding-left: 15px">一叶知秋</span>
+                <img src="/images/me.jpg" class="box-one-img img-set"><span style="padding-left: 15px">一叶知秋1</span>
             </div>
             <div style="text-align: center;color: #13CE66;height:20px;margin-top: 10px">
                 更新：
@@ -139,7 +139,7 @@
                 {name:'后知后觉',time:'17:01:19',text:'where I am? '}
 */
             ],
-            userList:[]
+            userList:[{active:'box-one-active'}]
         },
         watch:{
             items:function(){
@@ -161,7 +161,7 @@
                 }
                 _this.userNum=data.userNum;
                 //update user list
-                _this.updateUserList(data.userList);
+                _this.updateUserList(data.userList,data.id);
 
                 _this.message=user+'  '+content+'--'+timeSign
 
@@ -201,9 +201,10 @@
                 if(seconds<10){ seconds='0'+seconds}
                 return date.getHours()+':'+date.getMinutes()+':'+seconds
             },
-            updateUserList:function(userList){
+            updateUserList:function(userList,id){
                //每次有用户加入，重刷用户猎豹
                 this.userList=[];
+//                userList[id].active='box-one-active';
                 for(item in userList){
                     this.userList.push(userList[item])
                 }
