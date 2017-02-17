@@ -5,4 +5,5 @@
 * 服务端nodejs，用express、及其socket.io插件很容易搭建起服务
 
 #### 展示效果图
-![聊天页截图](http://ohsmsw5ly.bkt.clouddn.com/image/chat3.jpg)
+![聊天页截图](http://ohsmsw5ly.bkt.clouddn.com/chat3.jpg)
+
