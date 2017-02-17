@@ -43,6 +43,8 @@
 
 
     <link href="/stylesheets/style.css" rel='stylesheet' type='text/css' />
+    <link href="/stylesheets/iconfont.css" rel='stylesheet' type='text/css' />
+
 
 
 </head>
@@ -50,11 +52,21 @@
 
     <!--HTML5 flex弹性布局-->
     <div class="box" id="app" >
-        <div  v-if="show" class="mask"></div>
-        <div  v-if="show" class="newName">
-            <input type="text" @keyup.enter="addName" id="creatName" placeholder="起个名字吧" v-model="newName" style="padding: 4px 12px;vertical-align:middle">
-            <button type="button" class="btn btn-default" @click="addName">确定</button>
+        <div class="mask" :class="{showmask : active}"></div>
+        <!--登录-->
+        <div class="newName dialog" :class="{inputLeave : active}" >
+            <div class="dialog_header">创建用户<span class="close" @click="addName">X</span></div>
+            <div style="padding: 30px 20px;">
+                <input type="text" @keyup.enter="addName" id="creatName" placeholder="起个昵称吧" v-model="newName" style="padding: 4px 12px;vertical-align:middle">
+                <button type="button" class="btn btn-info" @click="addName">确定</button>
+            </div>
+            <!--创建头像缩略图-->
+            <ul class="viewImg">
+                <li v-for="item in imgList"><img @click="imgClick($event)" class="viewImg-item" :src=item ></li>
+            </ul>
         </div>
+        <!--内容-->
+        <!--左侧菜单栏-->
         <aside class="item aside-one">
             <div class="aside-one-one">
                 <img src="/images/me.jpg" style="border-radius: 50%">
@@ -72,6 +84,7 @@
                 <p><a href="#"><span class="glyphicon glyphicon-off"></span></a></p>
             </div>
         </aside>
+        <!--用户列表栏-->
         <div class="item box-one">
             <h4 style="padding:10px;">在线用户:<span style="padding-left: 5px;font-size: 20px">{{userNum}}</span></h4>
             <ul class="box-one-list" style="border-top: 1px solid #d3d4d6;
@@ -81,11 +94,17 @@
                     <span style="margin: 5px;overflow: hidden">{{user.userName}}</span>
                 </li>
             </ul>
-
         </div>
+        <!--聊天内容区-->
         <article class="item box-two">
             <div class="box-two-one">
-                <img src="/images/me.jpg" class="box-one-img img-set"><span style="padding-left: 15px">{{chatUser}}</span>
+                <div>
+                    <img :src=imgRoom class="box-one-img img-set">
+                    <span style="margin-left: 15px">{{chatRoom}}</span>
+                </div>
+                <a href="https://github.com/JQSC/JQChat" target="_blank" style="list-style: none;text-decoration: none;">
+                    <i class="iconfont icon-github img-set"></i>
+                </a>
             </div>
             <div style="text-align: center;color: #13CE66;height:20px;margin-top: 10px">
                 更新：
@@ -93,7 +112,7 @@
             </div>
             <div class="box-two-two" style="overflow-y:scroll;position: relative" id="chatList">
                 <div class="box-two-list" v-for="item in items">
-                    <p class="two-list-item"><img src="/images/me.jpg" class="box-one-img"></p>
+                    <p class="two-list-item"><img :src=item.image class="box-one-img"></p>
                     <div class="left">
                         <p>{{item.name}}<span>&nbsp;{{item.time}}</span></p>
                         <div class="box-two-text">{{item.text}}</div>
@@ -109,6 +128,7 @@
                         @click="submit" style="margin-left: 5px">发送消息</button>
             </footer>
         </article>
+        <!--右侧公告栏-->
         <aside class="item aside-two">
             <div style="padding: 5px;">
                 <h4>公告</h4>
@@ -123,8 +143,8 @@
                     </h4>
                 </div>
                 <ul class="box-one-list">
-                    <li class="box-one-active"><img src="/images/me.jpg" class="box-one-img"><span style="padding-left: 15px">一叶知秋1</span></li>
-                    <li><img src="/images/me.jpg" class="box-one-img"><span style="padding-left: 15px">一叶知秋2</span></li>
+                    <li class="box-one-active"><img src="/images/boy2.jpg" class="box-one-img"><span style="padding-left: 15px">一叶知秋1</span></li>
+                    <li><img src="/images/girl4.jpg" class="box-one-img"><span style="padding-left: 15px">一叶知秋2</span></li>
                 </ul>
             </div>
         </aside>
@@ -133,6 +153,13 @@
 <script>
     var socket= io.connect('http://localhost:8080');
     var el=document.getElementById('chatList');
+    //处理图片列表
+    var oImgList=document.getElementsByClassName('viewImg')[0];
+    var oImg=oImgList.getElementsByTagName('img');
+    //替换img-active为空
+    var re=/\simg-active/g;
+    //判断是否存在img-active的对象;
+    var qe=/img-active/g;
     //获取焦点
     document.getElementById('creatName').focus()
 
@@ -146,10 +173,17 @@
             newName:'',
             show:true,
             chatUser:'',
+            active:false,
+            chatRoom:'群聊室',
+            imgRoom:'/images/me.jpg',
+            imgChat:'',
             items:[
-               /* {name:'后知后觉',time:'17:01:12',text:'hello word!'},*/
+               /* {name:'后知后觉',time:'17:01:12',text:'hello word!',img:''},*/
             ],
-            userList:[{active:'box-one-active'}]
+            userList:[{active:'box-one-active'}],
+            imgList:['boy2.jpg','boy1.jpg','boy3.jpg','girl1.jpg',
+            'girl3.jpeg','girl4.jpg','girl5.jpg','girl6.jpg','girl7.jpg'
+            ]
         },
         watch:{
             items:function(){
@@ -158,18 +192,21 @@
             }
         },
         created:function(){
+
+            //所有图片列表加入路由指向
+            this.updateImg();
+            //this.imgClick();
+
             var _this=this;
-            //更新在线人数，及其人数列表
+            //更新在线人数，及其人数列表--接收服务端用户列表数据
             socket.on('addUser',function(data){
 
                 var user=data.userInfo.userName,
                         timeSign=data.userInfo.time,
-                        userNum=data.userNum,
                         content=data.text;
                 if(!_this.user){
                     _this.user=data.userInfo.userName;
                 }
-                _this.userNum=data.userNum;
                 //update user list
                 _this.updateUserList(data.userList,data.id);
                 _this.chatUser=data.userInfo.userName;
@@ -199,29 +236,58 @@
                     obj.name=this.user;
                     obj.time=timeNew;
                     obj.text=this.chatContent;
-                    obj.image='';
+                    obj.image=this.imgChat;
 
                 this.items.push(obj);
+
                 //广播聊天内容
                 socket.emit('chatMessage',obj);
             },
+            //获取当前时间
             getRealTime:function(){
                 var date=new Date();
                 var seconds=date.getSeconds();
                 if(seconds<10){ seconds='0'+seconds}
                 return date.getHours()+':'+date.getMinutes()+':'+seconds
             },
+            //更新用户列表
             updateUserList:function(userList,id){
-               //每次有用户加入，重刷用户猎豹
+               //每次有用户加入，重刷用户列表，并计算用户数
                 this.userList=[];
-//                userList[id].active='box-one-active';
+                var num=0;
                 for(item in userList){
+                    num++;
                     this.userList.push(userList[item])
                 }
+                   this.userNum=num;
+
             },
+            //登录函数
             addName:function(){
-                this.show=false;
-                socket.emit('login',this.newName);
+                this.active=true;
+                //取出选择的是哪个头像
+                var index=0;
+                for(var i=0;i<oImg.length;i++){
+                    if(qe.test(oImg[i].className)){
+                        index=i
+                    }
+                }
+                this.imgChat=this.imgList[index];
+                //广播
+                socket.emit('login',this.newName,this.imgList[index]);
+            },
+            updateImg:function(){
+                for(var i=0;i<this.imgList.length;i++ ){
+                    this.imgList[i]='/images/'+this.imgList[i]
+                }
+            },
+            imgClick:function(ev){
+                //正则匹配，去除img-active类属性
+                for(var i=0;i<oImg.length;i++){
+                    oImg[i].className=oImg[i].className.replace(re,'')
+                }
+                ev.target.className=ev.target.className+' img-active';
+
             }
         }
     });

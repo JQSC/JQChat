@@ -3,8 +3,7 @@
  */
 var socketio=require('socket.io'),
     io,
-    userList ={},     //在线用户列表
-    userNum=0;
+    userList ={};    //在线用户列表
 
 function realTimeChat(server){
 
@@ -15,15 +14,14 @@ function realTimeChat(server){
     //监听客户端连接,回调函数会传递本次连接的socket
     io.on('connection',function(socket){
 
-        console.log('启动~————————————————————————————!');
-
         //登录
-        socket.on('login',function(name){
+        socket.on('login',function(name,imgName){
             //监听客户端发送消息---新用户加入、起名字、分配头像
-            userNum=addUser(socket,name);
+            addUser(socket,name,imgName);
             //给所有的客户端发送消息
+            console.log(userList);
             io.sockets.emit('addUser',
-                {userInfo:userList[socket.id],userList:userList,userNum:userNum,text:'加入聊天室!'}
+                {userInfo:userList[socket.id],userList:userList,text:'加入聊天室!'}
             );
         });
 
@@ -40,7 +38,7 @@ function realTimeChat(server){
             var userOld=deleteUser(socket);
             if(userOld){
                 socket.broadcast.emit('addUser',
-                    {userInfo:userOld,userList:userList,userNum:userNum,text:'离开聊天室!'}
+                    {userInfo:userOld,userList:userList,text:'离开聊天室!'}
                 );
             }
         })
@@ -48,14 +46,14 @@ function realTimeChat(server){
     })
 }
 
-function addUser(socket,name){
+//登录函数
+function addUser(socket,name,imgName){
     var id=socket.id;
         //name='一叶知秋'+(userNum+1);
     var date=new Date(),
         time=date.toLocaleTimeString();
-    userList[socket.id]={userName:name,userImg:'/images/me.jpg',time:time};
-    userNum++;
-    return userNum
+    userList[socket.id]={userName:name,userImg:imgName,time:time};
+
 }
 
 function deleteUser(socket){
@@ -63,9 +61,6 @@ function deleteUser(socket){
     if (userList.hasOwnProperty(socket.id)) {
         var userOld=userList[socket.id];
         delete userList[socket.id];
-        console.log(userList)
-        userNum--;
-        console.log(userNum)
         return userOld
     }
     return false
