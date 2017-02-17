@@ -17,12 +17,15 @@ function realTimeChat(server){
 
         console.log('启动~————————————————————————————!');
 
-        //监听客户端发送消息---新用户加入、起名字、分配头像
-        userNum=addUser(socket);
-        //给所有的客户端发送消息
-        io.sockets.emit('addUser',
-            {userInfo:userList[socket.id],userList:userList,userNum:userNum,text:'加入聊天室!'}
-        );
+        //登录
+        socket.on('login',function(name){
+            //监听客户端发送消息---新用户加入、起名字、分配头像
+            userNum=addUser(socket,name);
+            //给所有的客户端发送消息
+            io.sockets.emit('addUser',
+                {userInfo:userList[socket.id],userList:userList,userNum:userNum,text:'加入聊天室!'}
+            );
+        });
 
         //接收用户发送的消息
         socket.on('chatMessage',function(message){
@@ -37,7 +40,7 @@ function realTimeChat(server){
             var userOld=deleteUser(socket);
             if(userOld){
                 socket.broadcast.emit('addUser',
-                    {userInfo:userOld,userNum:userNum,text:'离开聊天室!'}
+                    {userInfo:userOld,userList:userList,userNum:userNum,text:'离开聊天室!'}
                 );
             }
         })
@@ -45,12 +48,12 @@ function realTimeChat(server){
     })
 }
 
-function addUser(socket){
-    var id=socket.id,
-        name='一叶知秋'+(userNum+1);
+function addUser(socket,name){
+    var id=socket.id;
+        //name='一叶知秋'+(userNum+1);
     var date=new Date(),
         time=date.toLocaleTimeString();
-    userList[socket.id]={userName:name,userImg:'me.jpg',time:time};
+    userList[socket.id]={userName:name,userImg:'/images/me.jpg',time:time};
     userNum++;
     return userNum
 }

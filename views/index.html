@@ -47,8 +47,14 @@
 
 </head>
 <body>
+
     <!--HTML5 flex弹性布局-->
     <div class="box" id="app" >
+        <div  v-if="show" class="mask"></div>
+        <div  v-if="show" class="newName">
+            <input type="text" @keyup.enter="addName" id="creatName" placeholder="起个名字吧" v-model="newName" style="padding: 4px 12px;vertical-align:middle">
+            <button type="button" class="btn btn-default" @click="addName">确定</button>
+        </div>
         <aside class="item aside-one">
             <div class="aside-one-one">
                 <img src="/images/me.jpg" style="border-radius: 50%">
@@ -67,18 +73,19 @@
             </div>
         </aside>
         <div class="item box-one">
-            <h4 style="padding: 5px">在线用户:<span style="padding-left: 5px;font-size: 20px">{{userNum}}</span></h4>
-
-            <ul class="box-one-list">
-
+            <h4 style="padding:10px;">在线用户:<span style="padding-left: 5px;font-size: 20px">{{userNum}}</span></h4>
+            <ul class="box-one-list" style="border-top: 1px solid #d3d4d6;
+            overflow-y: scroll;width: 95%">
                 <li :class="user.active" v-for="user in userList">
-                    <img src="/images/me.jpg" class="box-one-img">
-                    <span style="padding-left: 15px">{{user.userName}}</span></li>
+                    <img :src="user.userImg" class="box-one-img">
+                    <span style="margin: 5px;overflow: hidden">{{user.userName}}</span>
+                </li>
             </ul>
+
         </div>
         <article class="item box-two">
             <div class="box-two-one">
-                <img src="/images/me.jpg" class="box-one-img img-set"><span style="padding-left: 15px">一叶知秋1</span>
+                <img src="/images/me.jpg" class="box-one-img img-set"><span style="padding-left: 15px">{{chatUser}}</span>
             </div>
             <div style="text-align: center;color: #13CE66;height:20px;margin-top: 10px">
                 更新：
@@ -97,13 +104,13 @@
             </div>
             <footer class="box-two-three">
                 <div style="margin:10px;color: #0f0f0f;" class="glyphicon glyphicon-th-large" ></div>
-                <input id="text" type="text" placeholder="输入聊天内容" v-model="chatContent">
-                <button type="submit" class="btn btn-default" :keyup.enter="submit"
+                <input id="text" type="text" @keyup.enter="submit" placeholder="输入聊天内容" v-model="chatContent">
+                <button type="submit" class="btn btn-default"
                         @click="submit" style="margin-left: 5px">发送消息</button>
             </footer>
         </article>
         <aside class="item aside-two">
-            <div style="padding: 5px">
+            <div style="padding: 5px;">
                 <h4>公告</h4>
                 <p style="padding-top: 10px">有问题欢迎提issue</p>
                 <hr/>
@@ -126,6 +133,9 @@
 <script>
     var socket= io.connect('http://localhost:8080');
     var el=document.getElementById('chatList');
+    //获取焦点
+    document.getElementById('creatName').focus()
+
     var app=new Vue({
         el: '#app',
         data: {
@@ -133,11 +143,11 @@
             chatContent:'',
             user:false,
             userNum:'',
+            newName:'',
+            show:true,
+            chatUser:'',
             items:[
-               /* {name:'后知后觉',time:'17:01:12',text:'hello word!'},
-                {name:'后知后觉',time:'17:01:15',text:'who are you?'},
-                {name:'后知后觉',time:'17:01:19',text:'where I am? '}
-*/
+               /* {name:'后知后觉',time:'17:01:12',text:'hello word!'},*/
             ],
             userList:[{active:'box-one-active'}]
         },
@@ -162,7 +172,7 @@
                 _this.userNum=data.userNum;
                 //update user list
                 _this.updateUserList(data.userList,data.id);
-
+                _this.chatUser=data.userInfo.userName;
                 _this.message=user+'  '+content+'--'+timeSign
 
             });
@@ -208,6 +218,10 @@
                 for(item in userList){
                     this.userList.push(userList[item])
                 }
+            },
+            addName:function(){
+                this.show=false;
+                socket.emit('login',this.newName);
             }
         }
     });
