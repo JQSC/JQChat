@@ -75,6 +75,11 @@ body,div,button, input, select, textarea,span,p,a{font:14px/1.5 "Microsoft YaHei
   border-radius: 10px;
   background-color:rgb(56,158,254) ;
 }
+
+/*.aside-one-show{*/
+  /*transition: width 5s;*/
+  /*-webkit-transition: width 2s;*/
+/*}*/
 /*box-one*/
 .box-one{
   width: 190px;height: 100%;
@@ -199,7 +204,18 @@ body,div,button, input, select, textarea,span,p,a{font:14px/1.5 "Microsoft YaHei
   background-color:rgb(248,249,250) ;
 }
 
+.asideLeave{
+  animation:myaside 1s;
+  -moz-animation:myaside 1s;
+  -webkit-animation:myaside 1s;
+  -o-animation:myaside 1s;
+}
 
+@keyframes myaside
+{
+  from {width: 400px;}
+  to { width: 210px;}
+}
 /*遮罩层*/
 .mask{
   position: fixed;z-index: 999;top: 0;left: 0;

@@ -1,21 +1,68 @@
 
-@font-face {font-family: "iconfont";
-  src: url('/fonts/iconfont.eot?t=1487307125762'); /* IE9*/
-  src: url('/fonts/iconfont.eot?t=1487307125762#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('/fonts/iconfont.woff?t=1487307125762') format('woff'), /* chrome, firefox */
-  url('/fonts/iconfont.ttf?t=1487307125762') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-  url('/fonts/iconfont.svg?t=1487307125762#iconfont') format('svg'); /* iOS 4.1- */
-}
 
+@font-face {font-family: "iconfont";
+  src: url('/fonts/iconfont.eot?t=1487436340873'); /* IE9*/
+  src: url('/fonts/iconfont.eot?t=1487436340873#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('/fonts/iconfont.woff?t=1487436340873') format('woff'), /* chrome, firefox */
+  url('/fonts/iconfont.ttf?t=1487436340873') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('/fonts/iconfont.svg?t=1487436340873#iconfont') format('svg'); /* iOS 4.1- */
+}
 .iconfont {
   font-family:"iconfont" !important;
-  font-size:40px;
+  font-size:30px;
   font-style:normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.iconfont2 {
+  font-family:"iconfont" !important;
+  font-size:25px;
+  font-style:normal;
+  color: white;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.icon-diaojie1:before { content: "\e601"; }
+
+.icon-shezhi:before { content: "\e600"; }
+
+.icon-close1:before { content: "\e61d"; }
+
+.icon-tupian:before { content: "\e674"; }
+
+.icon-zuo:before { content: "\e6cf"; }
 
 .icon-github:before { content: "\e69f"; }
+
+.icon-atm:before { content: "\e6ba"; }
+
+.icon-book:before { content: "\e611"; }
+
+.icon-yinxiaodiaojie:before { content: "\e630"; }
+
+.icon-browse:before { content: "\e6e6"; }
+
+.icon-peizhi:before { content: "\e716"; }
+
+.icon-iconset0174:before { content: "\e649"; }
+
+.icon-chaxun:before { content: "\e608"; }
+
+.icon-duorenliaotian:before { content: "\e62e"; }
+
+.icon-guanji:before { content: "\e604"; }
+
+.icon-webtubiaoku02:before { content: "\e63e"; }
+
+.icon-you:before { content: "\e607"; }
+
+.icon-share:before { content: "\e6e1"; }
+
+.icon-refresh:before { content: "\e6a0"; }
+
+.icon-error:before { content: "\e6b1"; }
+
+.icon-cry:before { content: "\e6b8"; }
 
 .icon{
   font-size: 42px;
