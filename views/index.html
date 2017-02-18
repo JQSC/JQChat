@@ -25,6 +25,9 @@
         .left{
             float: left;
         }
+        .right{
+            float: right;
+        }
         .clear{
             clear:both
         }
@@ -111,9 +114,9 @@
                 <span style="color: #0f0f0f">{{message}}</span>
             </div>
             <div class="box-two-two" style="overflow-y:scroll;position: relative" id="chatList">
-                <div class="box-two-list" v-for="item in items">
+                <div class="box-two-list" :class=item.position v-for="item in items">
                     <p class="two-list-item"><img :src=item.image class="box-one-img"></p>
-                    <div class="left">
+                    <div>
                         <p>{{item.name}}<span>&nbsp;{{item.time}}</span></p>
                         <div class="box-two-text">{{item.text}}</div>
                     </div>
@@ -177,6 +180,8 @@
             chatRoom:'群聊室',
             imgRoom:'/images/me.jpg',
             imgChat:'',
+            chatLeft:'box-two-left',
+            chatRight:'box-two-right',
             items:[
                /* {name:'后知后觉',time:'17:01:12',text:'hello word!',img:''},*/
             ],
@@ -198,7 +203,8 @@
             //this.imgClick();
 
             var _this=this;
-            //更新在线人数，及其人数列表--接收服务端用户列表数据
+
+            //登录后更新在线人数，及其人数列表--接收服务端用户列表数据
             socket.on('addUser',function(data){
 
                 var user=data.userInfo.userName,
@@ -213,6 +219,7 @@
                 _this.message=user+'  '+content+'--'+timeSign
 
             });
+            //接收消息
             socket.on('getMessage',function(message){
                 var obj={};
                 obj.name=message.name;
@@ -231,17 +238,21 @@
         },
         methods:{
             submit:function(){
-                var timeNew=this.getRealTime();
-                var obj={};
-                    obj.name=this.user;
-                    obj.time=timeNew;
-                    obj.text=this.chatContent;
-                    obj.image=this.imgChat;
-
-                this.items.push(obj);
-
-                //广播聊天内容
-                socket.emit('chatMessage',obj);
+                if(this.chatContent!=''){
+                    var timeNew=this.getRealTime();
+                    var obj={};
+                        obj.name=this.user;
+                        obj.time=timeNew;
+                        obj.text=this.chatContent;
+                        obj.image=this.imgChat;
+                        obj.position=this.chatLeft;
+                    //广播聊天内容
+                    socket.emit('chatMessage',obj);
+                    //处理当前客户端发送的内容
+                    obj.position=this.chatRight;
+                    this.items.push(obj);
+                    this.chatContent='';
+                }
             },
             //获取当前时间
             getRealTime:function(){

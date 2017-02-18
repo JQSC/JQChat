@@ -96,6 +96,7 @@ body,div,button, input, select, textarea,span,p,a{font:14px/1.5 "Microsoft YaHei
 .box-one-img{
   width: 40px;height: 40px;
   border-radius: 50%;
+  margin: 5px;
 }
 .box-one-active{
   border-radius: 10px;
@@ -125,19 +126,50 @@ body,div,button, input, select, textarea,span,p,a{font:14px/1.5 "Microsoft YaHei
 }
 .box-two-two{
   flex: 1 1 auto;
+  flex-flow: column nowrap;
 }
 .box-two-list{
   padding: 10px;
+  display: flex;
+  flex-flow: row wrap;
+
 }
+
+/*除本机外的客户端内容样式*/
+.box-two-left{
+  justify-content:flex-start ;
+}
+.box-two-left > p{
+  order:1
+}
+.box-two-left > div{
+
+  order:2;
+}
+/*当前客户端发送的内容样式*/
+.box-two-right{
+  justify-content:flex-end ;
+}
+.box-two-right > p{
+
+  order: 2;
+}
+.box-two-right > div:nth-child(1){
+
+  order: 1;
+}
+/* -------------*/
 .two-list-item{
-  float: left;padding-right: 20px
+  margin: 0 10px
 }
+
 .box-two-text{
   max-width: 750px;
   background-color: white;
   border: 1px solid #99A9BF;
   border-radius: 10px;
   padding: 5px 5px;
+  white-space:pre-wrap;
 
 }
 .box-two-three{
