@@ -170,7 +170,7 @@
 .box-two-list{
   padding: 10px;
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: row nowrap;
 
 }
 
@@ -185,6 +185,11 @@
 
   order:2;
 }
+.box-two-left .box-two-position{
+  max-width: 750px;
+  white-space:pre-wrap;
+  text-align: left;
+}
 /*当前客户端发送的内容样式*/
 .box-two-right{
   justify-content:flex-end ;
@@ -196,27 +201,33 @@
 .box-two-right > div:nth-child(1){
 
   order: 1;
+
+}
+.box-two-right .box-two-position{
+  max-width: 750px;
+  white-space:pre-wrap;
+  text-align: right;
 }
 /* -------------*/
 .two-list-item{
-  margin: 0 10px
+  margin: 10px 10px;
 }
 
 .box-two-text{
+  display: inline-block;
   max-width: 750px;
   background-color: white;
   border: 1px solid #99A9BF;
   border-radius: 10px;
-  padding: 5px 5px;
+  padding: 5px 10px;
   white-space:pre-wrap;
+  word-break:break-all;
 
 }
 .box-two-three{
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
-
-
 
 }
 .box-two-three input{
