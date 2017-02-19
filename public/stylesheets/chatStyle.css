@@ -71,6 +71,7 @@
 .aside-one-list li:hover{
   border-radius: 10px;
   background-color:rgb(56,158,254) ;
+  cursor: pointer;
 }
 
 .aside-one-three{
@@ -84,6 +85,7 @@
 .aside-one-three > p:hover{
   border-radius: 10px;
   background-color:rgb(56,158,254) ;
+  cursor: pointer;
 }
 
 /*.aside-one-show{*/
@@ -269,7 +271,7 @@
   -o-animation:myfirst 1s; /* Opera */
 }
 /*弹窗*/
-.dialog{
+.dialog-login{
   background-color: white;
   border-radius: 5px;
   color: #475669;
@@ -277,10 +279,10 @@
   flex-flow: column nowrap;
   justify-content: space-between;
 }
-.dialog > div:nth-child(2){
+.dialog-login > div:nth-child(2){
   padding: 30px 20px;
 }
-.dialog_header{
+.dialog-login-header{
   font-size: 16px;
   font-weight: bold;
   line-height: 16px;

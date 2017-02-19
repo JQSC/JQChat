@@ -15,6 +15,10 @@
     <link href="/stylesheets/common.css" rel='stylesheet' type='text/css' />
     <link href="/stylesheets/chatStyle.css" rel='stylesheet' type='text/css' />
     <link href="/stylesheets/iconfont.css" rel='stylesheet' type='text/css' />
+    <!--弹窗组件-->
+    <script type="text/javascript" src="/javascripts/dialog.js"></script>
+    <link href="/stylesheets/dialog.css" rel='stylesheet' type='text/css' />
+
 
 </head>
 <body>
@@ -23,8 +27,8 @@
     <div class="box" id="app" >
         <div class="mask" :class="{showmask : active}"></div>
         <!--登录-->
-        <div class="newName dialog" :class="{inputLeave : active}" >
-            <div class="dialog_header">创建用户<span class="close" @click="addName">X</span></div>
+        <div class="newName dialog-login" :class="{inputLeave : active}" >
+            <div class="dialog-login-header">创建用户<span class="close" @click="addName">X</span></div>
             <div>
                 <input type="text" @keyup.enter="addName" id="creatName" placeholder="起个昵称吧" v-model="newName" style="padding: 4px 12px;vertical-align:middle">
                 <button type="button" class="btn btn-info" @click="addName">确定</button>
@@ -122,7 +126,7 @@
             <div style="margin: 10px;">
                 <div>
                     <h4>近期活跃
-                        <a href="javascript:;" class="styleA">
+                        <a href="javascript:;" class="styleA" @click="searchUser">
                             <i class="iconfont icon-chaxun img-set"></i>
                         </a>
                     </h4>
@@ -310,6 +314,14 @@
                         return false
                 }
 
+            },
+            searchUser: function () {
+                var dialog=new Dialog();
+                dialog.init({
+                    title:'搜索用户',
+                    submit:'搜索'
+
+                });
             }
         }
     });
