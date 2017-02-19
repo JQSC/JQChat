@@ -2,6 +2,7 @@
 .dialog{
     font:14px/1.5 "Microsoft YaHei",Arial,  Verdana, sans-serif;
     position: absolute;
+    z-index: 1000;
     left: 35%;
     top:30%;
     background-color:white;
@@ -16,10 +17,10 @@
     -o-animation:mydialog 1s;
 }
 .dialogHidden{
-    animation:mydialogHidden 1s;
-    -moz-animation:mydialogHidden 1s;
-    -webkit-animation:mydialogHidden 1s;
-    -o-animation:mydialogHidden 1s;
+    animation:mydialogHidden 0.5s;
+    -moz-animation:mydialogHidden 0.5s;
+    -webkit-animation:mydialogHidden 0.5s;
+    -o-animation:mydialogHidden 0.5s;
     top: -30%
 }
 @keyframes mydialog {
@@ -104,8 +105,8 @@
     background-color: #58b7ff;
     cursor: pointer;
 }
-#mask{
+#mask_Dialog{
     position: fixed;z-index: 999;top: 0;left: 0;
     width: 100%;height: 100%;background-color: #475669;
-    opacity:0.5;display:block;
+    opacity:0;display:block;
 }

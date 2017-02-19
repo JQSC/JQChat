@@ -20,10 +20,10 @@ function Dialog(){
 
     //默认参数
     this.settings={
-        title:'搜索用户',
+        title:'提示',
         content:'这是一段信息',
         undo:'取消',
-        submit:'搜索',
+        submit:'确定',
         mask:false
 
     };
@@ -35,12 +35,15 @@ function Dialog(){
         dialogClass:'dialog_header',
         html:'<span class="dialog_header_title">'+this.settings.title+'</span><span class="close">X</span>',
     },{
-        dialogClass:'dialog_body',
-        html:'<input type="text" placeholder="查询用户">'+
+        dialogClass:'dialog_header',
+        html:'<input v-on:click.stop type="text" placeholder="查询用户">'+
         '<button class="dialog_footer_submit"><span>'+this.settings.submit+'</span></button>'
     }, {
         dialogClass:'dialog_footer',
-        html:''
+        html:'<button class="dialog_footer_undo"><span>'+this.settings.undo+'</span></button>'+
+        '<button class="dialog_footer_submit"><span>'+this.settings.submit+'</span></button>'
+    },{
+
     }];
 };
 
@@ -54,7 +57,6 @@ Dialog.prototype.init= function(opt){
         this.close(true);
     }
 };
-
 Dialog.prototype.create=function(){
 
     this.sign=true;
@@ -65,7 +67,6 @@ Dialog.prototype.create=function(){
     MYDIALOG.fun.elementAppend(this.DialogStyle,this.dialogView);
 
     //判断是否需要遮罩，this.settings.mask=true则生成遮罩层
-
     this.mask=MYDIALOG.fun.mask(this.settings,this.mask);
 
 };
@@ -74,13 +75,11 @@ Dialog.prototype.create=function(){
 Dialog.prototype.close=function(type){
     var This=this;
     var oClose=document.getElementsByClassName('close');
-    var oTrue=document.getElementsByClassName('dialog_footer_submit');
-    oClose[1].onclick=function(){
-
+    oClose[0].onclick=function(){
         MYDIALOG.fun.dialogClose(This);
     };
-    oTrue[0].onclick=function(){
-
+    var oUndo=this.dialogView[3].getElementsByTagName('span');
+    oUndo[0].onclick=function(){
         MYDIALOG.fun.dialogClose(This);
     };
     if(!type){
@@ -163,7 +162,7 @@ MYDIALOG.fun=(function(){
     var _close=function(obj){
         document.body.removeChild(obj.dialogView[0]);
         obj.json.sign=false;
-        //obj.mask.style.display='none'
+        obj.mask.style.display='none'
     };
     return {
         createElement:_createElement,

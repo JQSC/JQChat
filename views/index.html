@@ -49,10 +49,10 @@
             </div>
             <div>
                 <ul class="aside-one-list">
-                    <li class="active" @click="searchUser"><i class="iconfont2 icon-chaxun"></i></li>
-                    <li><i class="iconfont2 icon-book"></i></li>
-                    <li><i class="iconfont2 icon-duorenliaotian"></i></li>
-                    <li><i class="iconfont2 icon-tupian"></i></li>
+                    <li :class="{active:icon_active}"><i class="iconfont2 icon-duorenliaotian"></i></li>
+                    <li @click="searchUser"><i class="iconfont2 icon-chaxun"></i></li>
+                    <li @click="updateName"><i class="iconfont2 icon-book"></i></li>
+                    <li @click="modifyImg"><i class="iconfont2 icon-tupian"></i></li>
                 </ul>
             </div>
             <div class="aside-one-three">
@@ -152,7 +152,8 @@
     var qe=/img-active/g;
     //获取焦点
     document.getElementById('creatName').focus();
-
+    //获取弹窗组件
+    var Dialog=new CQDialog();
     var app=new Vue({
         el: '#app',
         data: {
@@ -173,6 +174,7 @@
             showRightAside:true,    //控制右侧列表显示隐藏
             showLeftAside:true,
             iconTj:true,         //控制左侧展示的图标
+            icon_active:true, //图标active
             items:[
                /* {name:'后知后觉',time:'17:01:12',text:'hello word!',img:''},*/
             ],
@@ -310,20 +312,34 @@
                         this.iconTj=!this.iconTj;
                             //控制左侧显示隐藏
                         this.showLeftAside=!this.showLeftAside;
-                        break
+                        break;
                     default:
                         return false
                 }
 
             },
+            //弹窗组件、查找用户，第二个参数为点击确认后的callback
             searchUser: function () {
-                var Dialog=new CQDialog();
-                Dialog.prompt({ title:'搜索用户',submit:'搜索'}, function(inputString){
+                Dialog.prompt({ title:'搜索用户',submit:'搜索',input:'搜索用户'}, function(inputString){
                     //回调函数，获取点击确认后输入框的内容
                    // alert(inputString)
 
                 })
 
+            },
+            //弹窗组件，修改名字，第二个参数为点击确认后的callback
+            updateName:function(){
+                Dialog.prompt({ title:'修改昵称',submit:'确认',input:'修改昵称'}, function(inputString){
+
+
+                })
+            },
+            //弹窗组件，修改头像 ，第二个参数为点击确认后的callback，第三个参数为insertHtml
+            modifyImg:function(){
+                Dialog.prompt({ title:'上传头像',input:'上传本地头像',submit:'上传'}, function(obj){
+
+
+                })
             }
         }
     });
