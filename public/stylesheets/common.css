@@ -1,0 +1,58 @@
+/*通用样式*/
+body{
+    margin: 0;padding: 0
+}
+body,div,button, input, select, textarea,span,p,a{font:14px/1.5 "Microsoft YaHei",Arial,  Verdana, sans-serif;}
+
+h4{
+    font-size: 18px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.1;
+    color: inherit;
+}
+hr{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 0;
+    border-top: 1px solid #eee;
+}
+.glyphicon{
+    font-size: 20px;
+    color:#f5f2f0;
+}
+.left{
+    float: left;
+}
+.right{
+    float: right;
+}
+.clear{
+    clear:both
+}
+/*仿bootstrap按钮*/
+.btn{
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    background-color:#5bc0de;
+    color: white;
+}
+
+.styleA{
+    list-style: none!important;text-decoration: none!important;
+    color:#428bca
+}
+.styleA:hover {
+    outline: 0;
+    color: #58b7ff;
+}

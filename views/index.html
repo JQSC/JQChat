@@ -5,48 +5,16 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1, minimum-scale=1">
     <style>
-        .box{
-            display: -webkit-flex;
-            display: flex;
-            justify-content:space-between;
-            -webkit-justify-content: space-between;
-            /*flex-flow: column;*/
-        }
-        .active{
-
-            border-radius: 10px;
-            background-color:rgb(56,158,254) ;
-
-        }
-        .glyphicon{
-            font-size: 20px;
-            color:#f5f2f0;
-        }
-        .left{
-            float: left;
-        }
-        .right{
-            float: right;
-        }
-        .clear{
-            clear:both
-        }
-        .styleA{
-            list-style: none!important;text-decoration: none!important;
-        }
-
 
     </style>
-    <link href="http://ohsmsw5ly.bkt.clouddn.com/css/bootstrap.min.css" rel='stylesheet' type='text/css' />
 
     <script  src="/socket.io/socket.io.js" type="text/javascript"></script>
 
     <script type="text/javascript" src="/javascripts/vue.js"></script>
 
-    <link href="/stylesheets/style.css" rel='stylesheet' type='text/css' />
+    <link href="/stylesheets/common.css" rel='stylesheet' type='text/css' />
+    <link href="/stylesheets/chatStyle.css" rel='stylesheet' type='text/css' />
     <link href="/stylesheets/iconfont.css" rel='stylesheet' type='text/css' />
-
-
 
 </head>
 <body>
@@ -57,7 +25,7 @@
         <!--登录-->
         <div class="newName dialog" :class="{inputLeave : active}" >
             <div class="dialog_header">创建用户<span class="close" @click="addName">X</span></div>
-            <div style="padding: 30px 20px;">
+            <div>
                 <input type="text" @keyup.enter="addName" id="creatName" placeholder="起个昵称吧" v-model="newName" style="padding: 4px 12px;vertical-align:middle">
                 <button type="button" class="btn btn-info" @click="addName">确定</button>
             </div>
@@ -65,13 +33,14 @@
             <ul class="viewImg">
                 <li v-for="item in imgList"><img @click="imgClick($event)" class="viewImg-item" :src=item ></li>
             </ul>
+            <div class="clear"></div>
         </div>
         <!--内容-->
         <!--左侧菜单栏-->
         <!--:class="{'aside-one-show':showLeftAside}"-->
         <aside class="item aside-one" v-if="showLeftAside" >
             <div class="aside-one-one">
-                <img src="/images/me.jpg" style="border-radius: 50%">
+                <img src="/images/me.jpg">
             </div>
             <div>
                 <ul class="aside-one-list">
@@ -88,12 +57,11 @@
         </aside>
         <!--用户列表栏-->
         <div class="item box-one" v-if="showLeftAside">
-            <h4 style="padding:10px;">在线用户:<span style="padding-left: 5px;font-size: 20px">{{userNum}}</span></h4>
-            <ul class="box-one-list" style="border-top: 1px solid #d3d4d6;
-            overflow-y: scroll;width: 95%">
+            <h4>在线用户:<span class="box-one-num">{{userNum}}</span></h4>
+            <ul class="box-one-list">
                 <li :class="user.active" v-for="user in userList">
                     <img :src="user.userImg" class="box-one-img">
-                    <span style="margin: 5px;overflow: hidden">{{user.userName}}</span>
+                    <span class="box-one-name">{{user.userName}}</span>
                 </li>
             </ul>
         </div>
@@ -116,11 +84,11 @@
                     </a>
                 </div>
             </div>
-            <div style="text-align: center;color: #13CE66;height:20px;margin-top: 10px">
+            <div style="" class="box-two-inform">
                 更新：
                 <span style="color: #0f0f0f">{{message}}</span>
             </div>
-            <div class="box-two-two" style="overflow-y:scroll;position: relative" id="chatList">
+            <div class="box-two-two" id="chatList">
                 <div class="box-two-list" :class=item.position v-for="item in items">
                     <p class="two-list-item"><img :src=item.image class="box-one-img"></p>
                     <div>
@@ -132,11 +100,13 @@
 
             </div>
             <footer class="box-two-three">
-                <div style="margin:10px;color: #0f0f0f;" class="glyphicon glyphicon-th-large" ></div>
+                <a href="javascript:;" class="styleA">
+                    <i class="iconfont icon-browse img-set"></i>
+                </a>
                 <input id="text" type="text" @keyup.enter="submit" placeholder="输入聊天内容" v-model="chatContent">
                 <!--<button type="submit" class="btn btn-default"-->
                         <!--@click="submit" style="margin-left: 5px">发送消息</button>-->
-                <a href="javascript:;" target="_blank" class="styleA" @click="submit">
+                <a href="javascript:;" class="styleA" @click="submit">
                     <i class="iconfont icon-share img-set"></i>
                 </a>
             </footer>
@@ -144,20 +114,21 @@
         <!--右侧公告栏-->
 
         <aside class="item aside-two" v-if="showRightAside" :class="{asideLeave : showRightAside}">
-            <div style="padding: 5px;">
+            <div style="margin: 10px;">
                 <h4>公告</h4>
                 <p style="padding-top: 10px">有问题欢迎提issue</p>
                 <hr/>
             </div>
-            <div>
+            <div style="margin: 10px;">
                 <div>
                     <h4>近期活跃
-                        <a class="iconfont icon-chaxun" href="#" style="padding-left: 10px;text-decoration: none">
+                        <a href="javascript:;" class="styleA">
+                            <i class="iconfont icon-chaxun img-set"></i>
                         </a>
                     </h4>
                 </div>
-                <ul class="box-one-list">
-                    <li class="box-one-active"><img src="/images/boy2.jpg" class="box-one-img"><span style="padding-left: 15px">一叶知秋1</span></li>
+                <ul class="aside-two-list">
+                    <li><img src="/images/boy2.jpg" class="box-one-img"><span style="padding-left: 15px">一叶知秋1</span></li>
                     <li><img src="/images/girl4.jpg" class="box-one-img"><span style="padding-left: 15px">一叶知秋2</span></li>
                 </ul>
             </div>

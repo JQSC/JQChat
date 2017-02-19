@@ -1,7 +1,14 @@
-body{
-  margin: 0;padding: 0
+.box{
+  display: -webkit-flex;
+  display: flex;
+  justify-content:space-between;
+  -webkit-justify-content: space-between;
+  /*flex-flow: column;*/
 }
-body,div,button, input, select, textarea,span,p,a{font:14px/1.5 "Microsoft YaHei",Arial,  Verdana, sans-serif;}
+.active{
+  border-radius: 10px;
+  background-color:rgb(56,158,254) ;
+}
 
 /*登录区*/
 .viewImg{
@@ -18,13 +25,15 @@ body,div,button, input, select, textarea,span,p,a{font:14px/1.5 "Microsoft YaHei
   width: 50px;height: 50px;
   margin: 5px;
   border-radius: 50%;
+  vertical-align: middle;
   float: left;
-}
-.img-active{
-  border: 3px solid #f7ba2a;
+  box-sizing :border-box;
 }
 .viewImg-item:hover{
+ border: 3px solid #f7ba2a;
 
+}
+.img-active{
   border: 3px solid #f7ba2a;
 }
 
@@ -47,6 +56,7 @@ body,div,button, input, select, textarea,span,p,a{font:14px/1.5 "Microsoft YaHei
 .aside-one-one img{
   width: 50px;
   height: 50px;
+  border-radius: 50%
 }
 .aside-one-list{
   /*margin:0 auto;*/
@@ -88,10 +98,21 @@ body,div,button, input, select, textarea,span,p,a{font:14px/1.5 "Microsoft YaHei
   flex-flow: column nowrap;
   justify-content: space-between;
 }
+.box-one > h4{
+  padding:10px;
+}
+.box-one-num{
+  padding-left: 5px;font-size: 20px
+}
+.box-one-name{
+  margin: 5px;overflow: hidden
+}
 .box-one-list{
   margin:0 auto;
   padding:0;
   flex: 1 1 auto;
+  border-top: 1px solid #d3d4d6;
+  overflow-y: scroll;width: 95%
 
 }
 .box-one-list li{
@@ -108,6 +129,7 @@ body,div,button, input, select, textarea,span,p,a{font:14px/1.5 "Microsoft YaHei
   width: 40px;height: 40px;
   border-radius: 50%;
   margin: 5px;
+  vertical-align: middle;
 }
 .box-one-active{
   border-radius: 10px;
@@ -135,9 +157,13 @@ body,div,button, input, select, textarea,span,p,a{font:14px/1.5 "Microsoft YaHei
 .img-set{
   margin: 10px 10px;
 }
+.box-two-inform{
+  text-align: center;color: #13CE66;height:20px;margin-top: 10px
+}
 .box-two-two{
   flex: 1 1 auto;
   flex-flow: column nowrap;
+  overflow-y:scroll;position: relative
 }
 .box-two-list{
   padding: 10px;
@@ -203,7 +229,16 @@ body,div,button, input, select, textarea,span,p,a{font:14px/1.5 "Microsoft YaHei
   width: 210px;height: 100%;
   background-color:rgb(248,249,250) ;
 }
+.aside-two-list{
+  margin:0 auto;
+  padding:0;
 
+}
+.aside-two-list li{
+  list-style: none;
+  padding: 10px 12px;
+
+}
 .asideLeave{
   animation:myaside 1s;
   -moz-animation:myaside 1s;
@@ -241,6 +276,9 @@ body,div,button, input, select, textarea,span,p,a{font:14px/1.5 "Microsoft YaHei
   display: flex;
   flex-flow: column nowrap;
   justify-content: space-between;
+}
+.dialog > div:nth-child(2){
+  padding: 30px 20px;
 }
 .dialog_header{
   font-size: 16px;
