@@ -16,8 +16,9 @@
     <link href="/stylesheets/chatStyle.css" rel='stylesheet' type='text/css' />
     <link href="/stylesheets/iconfont.css" rel='stylesheet' type='text/css' />
     <!--弹窗组件-->
-    <script type="text/javascript" src="/javascripts/dialog.js"></script>
-    <link href="/stylesheets/dialog.css" rel='stylesheet' type='text/css' />
+    <!--<script type="text/javascript" src="/javascripts/dialog.js"></script>-->
+    <script type="text/javascript" src="/javascripts/CQDialog.js"></script>
+    <link href="/stylesheets/CQDialog.css" rel='stylesheet' type='text/css' />
 
 
 </head>
@@ -48,7 +49,7 @@
             </div>
             <div>
                 <ul class="aside-one-list">
-                    <li class="active"><i class="iconfont2 icon-chaxun"></i></li>
+                    <li class="active" @click="searchUser"><i class="iconfont2 icon-chaxun"></i></li>
                     <li><i class="iconfont2 icon-book"></i></li>
                     <li><i class="iconfont2 icon-duorenliaotian"></i></li>
                     <li><i class="iconfont2 icon-tupian"></i></li>
@@ -316,12 +317,13 @@
 
             },
             searchUser: function () {
-                var dialog=new Dialog();
-                dialog.init({
-                    title:'搜索用户',
-                    submit:'搜索'
+                var Dialog=new CQDialog();
+                Dialog.prompt({ title:'搜索用户',submit:'搜索'}, function(inputString){
+                    //回调函数，获取点击确认后输入框的内容
+                   // alert(inputString)
 
-                });
+                })
+
             }
         }
     });

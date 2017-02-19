@@ -1,8 +1,10 @@
 
 .dialog{
     font:14px/1.5 "Microsoft YaHei",Arial,  Verdana, sans-serif;
-    width: 30% ; position: absolute;left: 35%;
-    top:30%;background-color:white;
+    position: absolute;
+    left: 35%;
+    top:30%;
+    background-color:white;
     border-radius: 5px;
     color: #475669;
     display: flex;
@@ -12,10 +14,32 @@
     -moz-animation:mydialog 1s;
     -webkit-animation:mydialog 1s;
     -o-animation:mydialog 1s;
-
+}
+.dialogHidden{
+    animation:mydialogHidden 1s;
+    -moz-animation:mydialogHidden 1s;
+    -webkit-animation:mydialogHidden 1s;
+    -o-animation:mydialogHidden 1s;
+    top: -30%
 }
 @keyframes mydialog {
-    
+    from {top: 0}
+    to { top: 30%}
+}
+@keyframes mydialogHidden {
+    from {top: 30%}
+    to { top: -30%}
+}
+.dialog_close{
+    float: right;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 16px;
+
+}
+.dialog_close:hover{
+    color: #20a0ff;
+    cursor: pointer;
 }
 .close{
     float: right;
@@ -43,7 +67,7 @@
     display: flex;
     justify-content: space-between;
 }
-.dialog_body > input{
+.dialog_input{
     flex: 1 1 auto;
 
 

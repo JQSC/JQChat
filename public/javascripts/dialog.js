@@ -54,6 +54,7 @@ Dialog.prototype.init= function(opt){
         this.close(true);
     }
 };
+
 Dialog.prototype.create=function(){
 
     this.sign=true;
