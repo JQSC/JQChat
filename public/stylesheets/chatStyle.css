@@ -42,12 +42,14 @@
 .aside-one{
   width: 60px;height: 100%;
   display: flex;
+  display: -webkit-flex; /* Safari */
   flex-flow: column nowrap;
   justify-content: space-between;align-items: center;
   background-color:rgb(34,147,254);
 }
 .aside-one > div{
   flex: 1 1 auto;
+  -webkit-flex: 1 1 auto;
 }
 
 .aside-one-one{
@@ -94,11 +96,25 @@
 /*}*/
 /*box-one*/
 .box-one{
-  width: 190px;height: 100%;
+  width: 190px;
+  /*height: 100%;*/
   background-color: rgb(241,242,245);
   display: flex;
-  flex-flow: column nowrap;
+  display: -webkit-flex; /* Safari */
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  -ms-flex-direction: column;
+  -o-flex-direction: column;
+  flex-direction: column;
+  -webkit-flex-wrap: nowrap;
+  -moz-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  -o-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  /*flex-flow: column nowrap;*/
   justify-content: space-between;
+  -webkit-justify-content: space-between;
+  -moz-justify-content: space-between;
 }
 .box-one-leave{
   animation:boxoneLeave 1s;
@@ -125,6 +141,7 @@
   margin:0 auto;
   padding:0;
   flex: 1 1 auto;
+  -webkit-flex: 1 1 auto;
   border-top: 1px solid #d3d4d6;
   overflow-y: scroll;width: 95%
 
@@ -153,8 +170,10 @@
 /*box-two*/
 .box-two{
   flex: 1 1 auto;
+  -webkit-flex: 1 1 auto;
   height: 100%;
   display: flex;
+  display: -webkit-flex; /* Safari */
   flex-flow: column nowrap;
   justify-content: space-around;
   background-color: rgb(245,245,245);
@@ -164,6 +183,7 @@
   height: 70px;
   /*border-bottom: 1px solid #f7ba2a;*/
   display: flex;
+  display: -webkit-flex; /* Safari */
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: center;
@@ -176,12 +196,14 @@
 }
 .box-two-two{
   flex: 1 1 auto;
+  -webkit-flex: 1 1 auto;
   flex-flow: column nowrap;
   overflow-y:scroll;position: relative
 }
 .box-two-list{
   padding: 10px;
   display: flex;
+  display: -webkit-flex; /* Safari */
   flex-flow: row nowrap;
 
 }
@@ -238,6 +260,7 @@
 }
 .box-two-three{
   display: flex;
+  display: -webkit-flex; /* Safari */
   justify-content: space-between;
   margin-bottom: 10px;
 
@@ -245,13 +268,15 @@
 .box-two-three input{
 
   flex: 1 1 auto;
+  -webkit-flex: 1 1 auto;
 
 
 }
 
 /*aside-two*/
 .aside-two{
-  width: 210px;height: 100%;
+  width: 210px;
+  /*height: 100%;*/
   background-color:rgb(248,249,250) ;
 
 }
@@ -300,6 +325,7 @@
   border-radius: 5px;
   color: #475669;
   display: flex;
+  display: -webkit-flex; /* Safari */
   flex-flow: column nowrap;
   justify-content: space-between;
 }

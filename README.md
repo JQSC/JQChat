@@ -8,8 +8,8 @@
 
 #### 各种不同类型的弹窗
 ![弹窗](http://ohsmsw5ly.bkt.clouddn.com/image/tc1.jpg)
-![弹窗](http://ohsmsw5ly.bkt.clouddn.com/image/tc2.jpg)
 ![弹窗](http://ohsmsw5ly.bkt.clouddn.com/image/tc3.jpg)
+![弹窗](http://ohsmsw5ly.bkt.clouddn.com/image/tc2.jpg)
 ![弹窗](http://ohsmsw5ly.bkt.clouddn.com/image/tc4.jpg)
 
 #### 页面展示图
