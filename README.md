@@ -13,4 +13,4 @@
 ![弹窗](http://ohsmsw5ly.bkt.clouddn.com/image/tc4.jpg)
 
 #### 页面展示图
-![聊天页截图](http://ohsmsw5ly.bkt.clouddn.com/image/chat.jpg)
+![聊天页截图](http://ohsmsw5ly.bkt.clouddn.com/image/chat5.jpg)
