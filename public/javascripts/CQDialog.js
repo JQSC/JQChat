@@ -13,13 +13,11 @@ var CQDialog = function(){
         maskOpacity:0,               //调节遮罩层透明度
         Switch:[{text:'设置',type:true},{text:'全屏',type:false}]  //配置开关
     };
-
     //保证只存在一个弹窗界面
     //方案一 状态锁
     this.open=false;
     //方案二  加入遮罩层，使无法点击其他元素
     this.mask=null
-
 };
 
 CQDialog.fn = CQDialog.prototype;
@@ -34,7 +32,7 @@ CQDialog.fn.init=function(){
     this.dialog=doc.createElement('div');
     this.dialog.className='dialog';
     this.dialog.zIndex=1000;
-    document.body.appendChild(this.dialog)
+    document.body.appendChild(this.dialog);
     var oHeader=doc.createElement('div');
     oHeader.className='dialog_header'
     oHeader.innerHTML='<span class="dialog_header_title">'+this.settings.title+'</span><span class="dialog_close">X</span>'
@@ -152,12 +150,16 @@ CQDialog.fn.close=function(){
     //解锁
     this.open=false;
     //关闭动画
-    this.dialog.className=this.dialog.className+' dialogHidden';
-    var _this=this;
-    setTimeout(function(){
-        document.body.removeChild(_this.dialog);
-        document.body.removeChild(_this.mask);
-    },500);
+    if(this.dialog.className.indexOf('dialogHidden')<0){
+
+        this.dialog.className=this.dialog.className+' dialogHidden';
+        var _this=this;
+        setTimeout(function(){
+            document.body.removeChild(_this.dialog);
+            document.body.removeChild(_this.mask);
+        },500);
+    }
+
 
 };
 CQDialog.fn.extend=function(obj1,obj2){

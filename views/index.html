@@ -37,6 +37,7 @@
                 <button type="button" class="btn btn-info" @click="addName">确定</button>
             </div>
             <!--创建头像缩略图-->
+
             <ul class="viewImg">
                 <li v-for="item in imgList"><img @click="imgClick($event)" class="viewImg-item" :src=item ></li>
             </ul>
