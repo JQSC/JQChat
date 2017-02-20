@@ -18,6 +18,7 @@ var CQDialog = function(){
     this.open=false;
     //方案二  加入遮罩层，使无法点击其他元素
     this.mask=null
+    this.maskOpacity=0
 
 };
 
@@ -28,7 +29,7 @@ var doc = document, config = CQDialog.fn.cache = {};
 //初始模态框;只定义头部
 CQDialog.fn.init=function(){
     //添加遮罩层
-    this.maskCreat();
+    this.maskCreat(this.maskOpacity);
     //弹窗模型
     this.dialog=doc.createElement('div');
     this.dialog.className='dialog';
@@ -85,7 +86,8 @@ CQDialog.fn.prompt=function(setting,callback){
 CQDialog.fn.alert=function(setting,callback){
     //重置配置参数
     this.extend(this.settings,setting);
-    //初始化
+    //初始化 显示遮罩层
+    this.maskOpacity=0.5;
     this.init();
     var _this=this;
 
@@ -166,9 +168,10 @@ CQDialog.fn.extend=function(obj1,obj2){
 };
 
 //生成遮罩
-CQDialog.fn.maskCreat=function(){
+CQDialog.fn.maskCreat=function(maskOpacity){
     this.mask=doc.createElement('div');
     this.mask.id='mask_Dialog';
+    this.mask.style.opacity=maskOpacity;
     document.body.appendChild(this.mask);
 };
 
