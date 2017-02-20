@@ -321,7 +321,7 @@
             },
             //弹窗组件、查找用户，第二个参数为点击确认后的callback
             searchUser: function () {
-                Dialog.prompt({ title:'搜索用户',submit:'搜索',input:'搜索用户'}, function(inputString){
+                Dialog.prompt({ title:'搜索用户',submit:'搜索',input:'搜索用户',maskOpacity:0}, function(inputString){
                     //回调函数，获取点击确认后输入框的内容
                    // alert(inputString)
 
@@ -330,21 +330,21 @@
             },
             //弹窗组件，修改名字，第二个参数为点击确认后的callback
             updateName:function(){
-                Dialog.prompt({ title:'修改昵称',submit:'确认',input:'修改昵称'}, function(inputString){
+                Dialog.prompt({ title:'修改昵称',submit:'确认',input:'修改昵称',maskOpacity:0}, function(inputString){
 
 
                 })
             },
             //弹窗组件，修改头像 ，第二个参数为点击确认后的callback，第三个参数为insertHtml
             modifyImg:function(){
-                Dialog.prompt({ title:'上传头像',input:'上传本地头像',submit:'上传'}, function(obj){
+                Dialog.prompt({ title:'上传头像',input:'上传本地头像',submit:'上传',maskOpacity:0}, function(obj){
 
 
                 })
             },
             //弹窗组件，维护配置开关 ,需要配置参数中传入控制开关的数组信息
             updateSetting:function(){
-                var obj={ title:'设置',input:'上传背景图',submit:'上传',
+                var obj={ title:'设置',input:'上传背景图',submit:'上传',maskOpacity:0,
                     Switch:[
                         {text:'提示音',type:true},
                         {text:'全屏',type:false}
@@ -357,8 +357,8 @@
             },
             //弹窗提示 是否关闭该页面
             turnOff:function(){
-
-                Dialog.alert({ title:'退出聊天室',text:'是否去意义绝？',submit:'确认',undo:'再想想'}, function(type){
+                Dialog.alert({ title:'退出聊天室',text:'是否去意义绝？',submit:'确认',undo:'再想想',
+                    maskOpacity:0.5}, function(type){
 
 
                 })
