@@ -18,6 +18,7 @@
     <!--弹窗组件-->
     <!--<script type="text/javascript" src="/javascripts/dialog.js"></script>-->
     <script type="text/javascript" src="/javascripts/CQDialog.js"></script>
+    <link href="/stylesheets/CQSwitch.css" rel='stylesheet' type='text/css' />
     <link href="/stylesheets/CQDialog.css" rel='stylesheet' type='text/css' />
 
 
@@ -25,7 +26,7 @@
 <body>
 
     <!--HTML5 flex弹性布局-->
-    <div class="box" id="app" >
+    <div class="box" id="app" style="position:relative">
         <div class="mask" :class="{showmask : active}"></div>
         <!--登录-->
         <div class="newName dialog-login" :class="{inputLeave : active}" >
@@ -56,12 +57,12 @@
                 </ul>
             </div>
             <div class="aside-one-three">
-                <p><i class="iconfont2 icon-shezhi"></i></p>
-                <p><i class="iconfont2 icon-guanji"></i></p>
+                <p><i @click="updateSetting" class="iconfont2 icon-shezhi"></i></p>
+                <p><i @click="turnOff" class="iconfont2 icon-guanji"></i></p>
             </div>
         </aside>
         <!--用户列表栏-->
-        <div class="item box-one" v-if="showLeftAside">
+        <div class="item box-one" v-if="showLeftAside" :class="{'box-one-leave' : showLeftAside}">
             <h4>在线用户:<span class="box-one-num">{{userNum}}</span></h4>
             <ul class="box-one-list">
                 <li :class="user.active" v-for="user in userList">
@@ -337,6 +338,27 @@
             //弹窗组件，修改头像 ，第二个参数为点击确认后的callback，第三个参数为insertHtml
             modifyImg:function(){
                 Dialog.prompt({ title:'上传头像',input:'上传本地头像',submit:'上传'}, function(obj){
+
+
+                })
+            },
+            //弹窗组件，维护配置开关 ,需要配置参数中传入控制开关的数组信息
+            updateSetting:function(){
+                var obj={ title:'设置',input:'上传背景图',submit:'上传',
+                    Switch:[
+                        {text:'提示音',type:true},
+                        {text:'全屏',type:false}
+                    ]
+                };
+                Dialog.setting(obj, function(backgroundImg){
+
+
+                })
+            },
+            //弹窗提示 是否关闭该页面
+            turnOff:function(){
+
+                Dialog.alert({ title:'退出聊天室',text:'是否去意义绝？',submit:'确认',undo:'再想想'}, function(type){
 
 
                 })

@@ -9,7 +9,7 @@ function realTimeChat(server){
 
     io=socketio(server);
 
-    console.log('chat_srvver启动成功!');
+    console.log('chat_srvver Start!');
 
     //监听客户端连接,回调函数会传递本次连接的socket
     io.on('connection',function(socket){

@@ -9,8 +9,10 @@ var CQDialog = function(){
         undo:'取消',
         submit:'确定',
         input:'请输入内容',
-        text:'请输入一段内容吧!'
+        text:'请输入一段内容吧!',
+        Switch:[{text:'设置',type:true},{text:'全屏',type:false}]
     };
+
     //保证只存在一个弹窗界面
     //方案一 状态锁
     this.open=false;
@@ -80,17 +82,18 @@ CQDialog.fn.prompt=function(setting,callback){
 };
 
 //alert 模态框
-CQDialog.fn.alert=function(setting,callback,insertHTML){
+CQDialog.fn.alert=function(setting,callback){
     //重置配置参数
     this.extend(this.settings,setting);
     //初始化
     this.init();
     var _this=this;
+
     var oCenter=doc.createElement('div');
     oCenter.className='dialog_body';
     oCenter.innerHTML=this.settings.text;
-    if(typeof insertHTML === 'function' ) {insertHTML(oCenter)}
     this.dialog.appendChild(oCenter);
+
     var oFooter=doc.createElement('div');
     oFooter.className='dialog_footer';
     oFooter.innerHTML='<button class="dialog_footer_undo"><span>'+this.settings.undo+'</span></button>'+
@@ -105,6 +108,43 @@ CQDialog.fn.alert=function(setting,callback,insertHTML){
         _this.close()
     };
 
+};
+
+// 配置模态框
+CQDialog.fn.setting=function(setting,callback){
+    //重置配置参数
+    this.extend(this.settings,setting);
+    //初始化
+    this.init();
+    var _this=this,
+        Switch=this.settings.Switch;
+    //根据数组长度，生成配置条数
+    for(var i=0;i<Switch.length;i++){
+        var checkType=(Switch[i].type==true)?'checked':'';
+        var oCenter=doc.createElement('div');
+        oCenter.className='dialog_body';
+        oCenter.innerHTML=Switch[i].text+'<label class="iSwitch">'+
+            '<input type="checkbox" '+checkType+'><i></i></label>';
+        this.dialog.appendChild(oCenter);
+    }
+    //上传背景图
+    var oBody=doc.createElement('div');
+    oBody.className='dialog_body';
+    oBody.innerHTML='<input type="text" class="dialog_input" placeholder="'+this.settings.input+'">'+
+        '<button class="dialog_footer_submit"><span>'+this.settings.submit+'</span></button>';
+    this.dialog.appendChild(oBody);
+
+    //底部
+    /*var oFooter=doc.createElement('div');
+    oFooter.className='dialog_footer';
+    oFooter.innerHTML='<button class="dialog_footer_undo"><span>'+this.settings.undo+'</span></button>'+
+        '<button class="dialog_footer_submit"><span>'+this.settings.submit+'</span></button>'
+    this.dialog.appendChild(oFooter);*/
+
+    //确认事件
+    doc.getElementsByClassName('dialog_footer_submit')[0].onclick=function(){
+        if(typeof callback === 'function' ) {callback(oCenter)}
+    };
 };
 
 CQDialog.fn.close=function(){

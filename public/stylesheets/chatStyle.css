@@ -100,6 +100,18 @@
   flex-flow: column nowrap;
   justify-content: space-between;
 }
+.box-one-leave{
+  animation:boxoneLeave 1s;
+  -moz-animation:boxoneLeave 1s;
+  -webkit-animation:boxoneLeave 1s;
+  -o-animation:boxoneLeave 1s;
+}
+
+@keyframes boxoneLeave
+{
+  from {width: 400px;}
+  to { width: 190px;}
+}
 .box-one > h4{
   padding:10px;
 }
@@ -241,6 +253,7 @@
 .aside-two{
   width: 210px;height: 100%;
   background-color:rgb(248,249,250) ;
+
 }
 .aside-two-list{
   margin:0 auto;
