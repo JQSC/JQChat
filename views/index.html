@@ -27,7 +27,7 @@
 <body>
 
     <!--HTML5 flex弹性布局-->
-    <div class="box" id="app" style="position:relative;height: 100%">
+    <div class="box" id="app">
         <div class="mask" :class="{showmask : active}"></div>
         <!--登录-->
         <div class="newName dialog-login" :class="{inputLeave : active}" >
@@ -180,7 +180,7 @@
             items:[
                /* {name:'后知后觉',time:'17:01:12',text:'hello word!',img:''},*/
             ],
-            userList:[{active:'box-one-active'}],
+            userList:[{active:'box-one-active' }],
             imgList:['boy2.jpg','boy1.jpg','boy3.jpg','girl1.jpg',
             'girl3.jpeg','girl4.jpg','girl5.jpg','girl6.jpg','girl7.jpg'
             ]
@@ -259,12 +259,15 @@
             //更新用户列表
             updateUserList:function(userList,id){
                //每次有用户加入，重刷用户列表，并计算用户数
+
+
                 this.userList=[];
                 var num=0;
-                for(item in userList){
+                for(var item in userList){
                     num++;
                     this.userList.push(userList[item])
                 }
+
                    this.userNum=num;
 
             },
@@ -334,7 +337,7 @@
                     oUl.id='dialog_id';
                     oUl.className='box-one-list';
                     oUl.style.maxHeight='280px';
-                    for(item in _this.userList){
+                    for(var item in _this.userList){
                         if(_this.userList[item].userName.indexOf(inputString)>=0){
                             oUl.innerHTML+='<li><img src="'+_this.userList[item].userImg+'" class="box-one-img">'+
                                     '<span class="box-one-name">'+_this.userList[item].userName+'</span></li>'
