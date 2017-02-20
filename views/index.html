@@ -9,15 +9,16 @@
     </style>
 
     <script  src="/socket.io/socket.io.js" type="text/javascript"></script>
-
+    <script type="text/javascript" src="/javascripts/CQDialog.js"></script>
     <script type="text/javascript" src="/javascripts/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/vue.resource/1.2.0/vue-resource.min.js"></script>
 
     <link href="/stylesheets/common.css" rel='stylesheet' type='text/css' />
     <link href="/stylesheets/chatStyle.css" rel='stylesheet' type='text/css' />
     <link href="/stylesheets/iconfont.css" rel='stylesheet' type='text/css' />
     <!--弹窗组件-->
     <!--<script type="text/javascript" src="/javascripts/dialog.js"></script>-->
-    <script type="text/javascript" src="/javascripts/CQDialog.js"></script>
+
     <link href="/stylesheets/CQSwitch.css" rel='stylesheet' type='text/css' />
     <link href="/stylesheets/CQDialog.css" rel='stylesheet' type='text/css' />
 
@@ -321,9 +322,31 @@
             },
             //弹窗组件、查找用户，第二个参数为点击确认后的callback
             searchUser: function () {
-                Dialog.prompt({ title:'搜索用户',submit:'搜索',input:'搜索用户',maskOpacity:0}, function(inputString){
+                var _this=this;
+                Dialog.prompt({ title:'搜索用户',submit:'搜索',input:'搜索用户',maskOpacity:0}, function(inputString,dialog){
                     //回调函数，获取点击确认后输入框的内容
-                   // alert(inputString)
+
+                    var oDialogUl=document.getElementById('dialog_id');
+                    if(oDialogUl){
+                        dialog.removeChild(oDialogUl)
+                    }
+                    var oUl=document.createElement('ul');
+                    oUl.id='dialog_id';
+                    oUl.className='box-one-list';
+                    oUl.style.maxHeight='280px';
+                    for(item in _this.userList){
+                        if(_this.userList[item].userName.indexOf(inputString)>=0){
+                            oUl.innerHTML+='<li><img src="'+_this.userList[item].userImg+'" class="box-one-img">'+
+                                    '<span class="box-one-name">'+_this.userList[item].userName+'</span></li>'
+                        }
+                    }
+                    dialog.appendChild(oUl);
+                    //socket.emit('getUserList',inputString);
+                    /*_this.$http.post('/users/searchUser',{name:inputString}).then(function(res){
+                        console.log(res)
+                    },function(res){
+                        console.log(res)
+                    })*/
 
                 })
 

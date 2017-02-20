@@ -19,7 +19,6 @@ function realTimeChat(server){
             //监听客户端发送消息---新用户加入、起名字、分配头像
             addUser(socket,name,imgName);
             //给所有的客户端发送消息
-            console.log(userList);
             io.sockets.emit('addUser',
                 {userInfo:userList[socket.id],userList:userList,text:'加入聊天室!'}
             );
@@ -53,6 +52,7 @@ function addUser(socket,name,imgName){
     var date=new Date(),
         time=date.toLocaleTimeString();
     userList[socket.id]={userName:name,userImg:imgName,time:time};
+    return userList
 
 }
 
