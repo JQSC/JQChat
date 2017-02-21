@@ -123,7 +123,7 @@ CQDialog.fn.setting=function(setting,callback){
         var oCenter=doc.createElement('div');
         oCenter.className='dialog_body';
         oCenter.innerHTML=Switch[i].text+'<label class="iSwitch">'+
-            '<input type="checkbox" '+checkType+'><i></i></label>';
+            '<input class="iSwitchInput" value="'+Switch[i].text+'" type="checkbox" '+checkType+'><i></i></label>';
         this.dialog.appendChild(oCenter);
     }
     //上传背景图
@@ -141,9 +141,18 @@ CQDialog.fn.setting=function(setting,callback){
     this.dialog.appendChild(oFooter);*/
 
     //确认事件
+    var oInput=doc.getElementsByClassName('dialog_input')[0];
     doc.getElementsByClassName('dialog_footer_submit')[0].onclick=function(){
-        if(typeof callback === 'function' ) {callback(oCenter)}
+        if(typeof callback === 'function' ) {callback(oInput,'image')}
     };
+    //switch 开关事件
+    var oSwitch=doc.getElementsByClassName('iSwitchInput');
+    for(var k=0;k<oSwitch.length;k++){
+        oSwitch[k].index=k;
+        oSwitch[k].onclick=function(){
+            if(typeof callback === 'function' ) {callback(oSwitch[this.index],'switch')}
+        };
+    }
 };
 
 CQDialog.fn.close=function(){

@@ -178,6 +178,7 @@
             showLeftAside:true,
             iconTj:true,         //控制左侧展示的图标
             icon_active:true, //图标active
+            screen:false,  //全屏开关
             items:[
                /* {name:'后知后觉',time:'17:01:12',text:'hello word!',img:''},*/
             ],
@@ -371,16 +372,70 @@
             },
             //弹窗组件，维护配置开关 ,需要配置参数中传入控制开关的数组信息
             updateSetting:function(){
+                var _this=this;
                 var obj={ title:'设置',input:'上传背景图',submit:'上传',maskOpacity:0,
                     Switch:[
                         {text:'提示音',type:true},
-                        {text:'全屏',type:false}
+                        {text:'全屏',type:_this.screen}
                     ]
                 };
-                Dialog.setting(obj, function(backgroundImg){
+                Dialog.setting(obj, function(obj,type){
+                    switch(type){
+                        case 'image':
+                            console.log(obj.value);
+                            break;
+                        case 'switch':
+                            if(obj.value=='全屏' && obj.checked){
+                                MyConfig.screen.requestFullScreen(document.documentElement); // 整个网页
+                                _this.screen=true;
+                            }else if(obj.value=='全屏' && !obj.checked){
+                                MyConfig.screen.exitFull(document.documentElement);
+                                _this.screen=false;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                });
+                var MyConfig={};
+                //全屏开关函数
+                MyConfig.screen=(function(){
+                    var _requestFullScreen=function(element) {
+                        // 判断各种浏览器，找到正确的方法
+                        var requestMethod = element.requestFullScreen || //W3C
+                                element.webkitRequestFullScreen ||    //Chrome等
+                                element.mozRequestFullScreen || //FireFox
+                                element.msRequestFullScreen; //IE11
+                        if (requestMethod) {
+                            requestMethod.call(element);
+                        }
+                        else if (typeof window.ActiveXObject !== "undefined") {//for Internet Explorer
+                            var wscript = new ActiveXObject("WScript.Shell");
+                            if (wscript !== null) {
+                                wscript.SendKeys("{F11}");
+                            }
+                        }
+                    };
+                    //退出全屏 判断浏览器种类
+                    var _exitFull=function() {
+                        // 判断各种浏览器，找到正确的方法
+                        var exitMethod = document.exitFullscreen || //W3C
+                                document.mozCancelFullScreen ||    //Chrome等
+                                document.webkitExitFullscreen || //FireFox
+                                document.webkitExitFullscreen; //IE11
+                        if (exitMethod) {
+                            exitMethod.call(document);
+                        }
+                        else if (typeof window.ActiveXObject !== "undefined") {//for Internet Explorer
+                            var wscript = new ActiveXObject("WScript.Shell");
+                            if (wscript !== null) {
+                                wscript.SendKeys("{F11}");
+                            }
+                        }
+                    };
+                    return {exitFull:_exitFull,requestFullScreen:_requestFullScreen}
+                }())
 
-
-                })
             },
             //弹窗提示 是否关闭该页面
             turnOff:function(){
