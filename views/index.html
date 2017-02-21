@@ -25,9 +25,9 @@
 
 </head>
 <body>
-
     <!--HTML5 flex弹性布局-->
     <div class="box" id="app">
+        <audio style="display:none" id="musicBox" src="http://data3.huiyi8.com/2015/saraxuss/3/10/1.mp3"></audio>
         <div class="mask" :class="{showmask : active}"></div>
         <!--登录-->
         <div class="newName dialog-login" :class="{inputLeave : active}" >
@@ -146,6 +146,7 @@
 <script>
     var socket= io.connect('http://localhost:8080');
     var el=document.getElementById('chatList');
+    var oMusic=document.getElementById('musicBox');
     //处理图片列表
     var oImgList=document.getElementsByClassName('viewImg')[0];
     var oImg=oImgList.getElementsByTagName('img');
@@ -179,6 +180,7 @@
             iconTj:true,         //控制左侧展示的图标
             icon_active:true, //图标active
             screen:false,  //全屏开关
+            music:false,  //音乐开关
             items:[
                /* {name:'后知后觉',time:'17:01:12',text:'hello word!',img:''},*/
             ],
@@ -235,6 +237,7 @@
         },
         methods:{
             submit:function(){
+                this.playMusic();
                 if(this.chatContent!=''){
                     var timeNew=this.getRealTime();
                     var obj={};
@@ -307,6 +310,7 @@
             },
             //切换左右图标
             changeIcon:function(string){
+                this.playMusic();
                 //疑惑 为什么三目运算符为false的时候没有执行
                 //this.iconDirection='icon-zuo'?'icon-you':'icon-zuo';
                 switch (string){
@@ -327,6 +331,7 @@
             },
             //弹窗组件、查找用户，第二个参数为点击确认后的callback
             searchUser: function () {
+                this.playMusic();
                 var _this=this;
                 Dialog.prompt({ title:'搜索用户',submit:'搜索',input:'搜索用户',maskOpacity:0}, function(inputString,dialog){
                     //回调函数，获取点击确认后输入框的内容
@@ -358,6 +363,7 @@
             },
             //弹窗组件，修改名字，第二个参数为点击确认后的callback
             updateName:function(){
+                this.playMusic();
                 Dialog.prompt({ title:'修改昵称',submit:'确认',input:'修改昵称',maskOpacity:0}, function(inputString){
 
 
@@ -365,6 +371,7 @@
             },
             //弹窗组件，修改头像 ，第二个参数为点击确认后的callback，第三个参数为insertHtml
             modifyImg:function(){
+                this.playMusic();
                 Dialog.prompt({ title:'上传头像',input:'上传本地头像',submit:'上传',maskOpacity:0}, function(obj){
 
 
@@ -372,10 +379,11 @@
             },
             //弹窗组件，维护配置开关 ,需要配置参数中传入控制开关的数组信息
             updateSetting:function(){
+                this.playMusic();
                 var _this=this;
                 var obj={ title:'设置',input:'上传背景图',submit:'上传',maskOpacity:0,
                     Switch:[
-                        {text:'提示音',type:true},
+                        {text:'提示音',type:this.music},
                         {text:'全屏',type:_this.screen}
                     ]
                 };
@@ -391,6 +399,10 @@
                             }else if(obj.value=='全屏' && !obj.checked){
                                 MyConfig.screen.exitFull(document.documentElement);
                                 _this.screen=false;
+                            }else if(obj.value=='提示音' && obj.checked){
+                                _this.music=true
+                            }else {
+                                _this.music=false
                             }
                             break;
                         default:
@@ -439,11 +451,18 @@
             },
             //弹窗提示 是否关闭该页面
             turnOff:function(){
+                this.playMusic();
                 Dialog.alert({ title:'退出聊天室',text:'是否去意义绝？',submit:'确认',undo:'再想想',
                     maskOpacity:0.5}, function(type){
 
 
                 })
+            },
+            playMusic:function(){
+                if(this.music){
+                    oMusic.load();
+                    oMusic.play();
+                }
             }
         }
     });
